@@ -62,4 +62,22 @@ public class ButtonTest {
         Locator buttonResult = page.locator("//div[text()[contains(.,'Button')]]");
         assertThat(buttonResult).hasText("Button Input button was clicked!");
     }
+
+    @Test
+    void shouldClickOriginButton(){
+        page.navigate("https://test-with-me-app.vercel.app/learning/web-elements/elements/button");
+        Locator originButton = page.locator("//button[.//text()[normalize-space()='Origin button']]");
+        originButton.click();
+        Locator buttonResult = page.locator("//div[text()[contains(.,'Button')]]");
+        assertThat(buttonResult).hasText("Button Origin button was clicked!");
+    }
+
+    @Test
+    void shouldClickDefaultButton(){
+        page.navigate("https://test-with-me-app.vercel.app/learning/web-elements/elements/button");
+        Locator defaultButton = page.locator("//button[.//text()[normalize-space()='Default']]");
+        defaultButton.click();
+        Locator buttonResult = page.locator("//div[text()[contains(.,'Button')]]");
+        assertThat(buttonResult).hasText("Button Default was clicked!");
+    }
 }
