@@ -2,82 +2,29 @@ package testcases.elements;
 
 import com.microsoft.playwright.*;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ButtonTest {
-    static Playwright playwright;
-    static Browser browser;
-
-    // New instance for each test method.
-    BrowserContext context;
-    Page page;
-
-    @BeforeAll
-    static void launchBrowser() {
-        playwright = Playwright.create();
-        browser = playwright.chromium().launch();
+public class ButtonTest extends MasterTest{
+    void clickButton(String buttonLabel){
+        String normalButtonXpath = String.format("//button[normalize-space(.//text())='%s']", buttonLabel);
+        String tagButtonXpath = String.format("//*[@role='button' and normalize-space(.//text())='%s']", buttonLabel);
+        String inputButtonXpath = String.format("//input[@type='button' and @value='%s']", buttonLabel);
+        String buttonXpath = String.format("%s | %s | %s", normalButtonXpath, tagButtonXpath, inputButtonXpath);
+        Locator buttonLocator = page.locator(buttonXpath);
+        buttonLocator.click();
     }
 
-    @AfterAll
-    static void closeBrowser() {
-        playwright.close();
-    }
-
-    @BeforeEach
-    void createContextAndPage() {
-        context = browser.newContext();
-        page = context.newPage();
-    }
-
-    @AfterEach
-    void closeContext() {
-        context.close();
-    }
-
-    @Test
-    void openButtonPage() {
+    @ParameterizedTest
+    @ValueSource(strings = { "Div button", "Origin button", "Input button", "Default", "Primary", "Dashed", "Text", "Link", "Icon button" })
+    void verifyClickAllButtons(String buttonLabel){
         page.navigate("https://test-with-me-app.vercel.app/learning/web-elements/elements/button");
         assertThat(page).hasTitle("Test With Me aka Tho Test");
-        Locator pageHeader = page.locator("//div[@role[normalize-space()='separator']]//span[text()[normalize-space()='Common button type']]");
-        assertThat(pageHeader).hasText("Common button type");
-    }
-
-    @Test
-    void shouldClickDivButton(){
-        page.navigate("https://test-with-me-app.vercel.app/learning/web-elements/elements/button");
-        Locator divButton = page.locator("//div[text()[normalize-space()='Div button']]");
-        divButton.click();
-        Locator buttonResult = page.locator("//div[text()[contains(.,'Button')]]");
-        assertThat(buttonResult).hasText("Button Div button was clicked!");
-    }
-
-    @Test
-    void shouldClickInputButton(){
-        page.navigate("https://test-with-me-app.vercel.app/learning/web-elements/elements/button");
-        Locator inputButton = page.locator("//input[@value[normalize-space()='Input button']]");
-        inputButton.click();
-        Locator buttonResult = page.locator("//div[text()[contains(.,'Button')]]");
-        assertThat(buttonResult).hasText("Button Input button was clicked!");
-    }
-
-    @Test
-    void shouldClickOriginButton(){
-        page.navigate("https://test-with-me-app.vercel.app/learning/web-elements/elements/button");
-        Locator originButton = page.locator("//button[.//text()[normalize-space()='Origin button']]");
-        originButton.click();
-        Locator buttonResult = page.locator("//div[text()[contains(.,'Button')]]");
-        assertThat(buttonResult).hasText("Button Origin button was clicked!");
-    }
-
-    @Test
-    void shouldClickDefaultButton(){
-        page.navigate("https://test-with-me-app.vercel.app/learning/web-elements/elements/button");
-        Locator defaultButton = page.locator("//button[.//text()[normalize-space()='Default']]");
-        defaultButton.click();
-        Locator buttonResult = page.locator("//div[text()[contains(.,'Button')]]");
-        assertThat(buttonResult).hasText("Button Default was clicked!");
+        clickButton(buttonLabel);
+        String expectedElementXpath = "//div[contains(., 'Button') and contains(., 'was clicked!') and ./span[contains(concat(' ', normalize-space(@class),' '),' text-rose-500 ')]]";
+        Locator expectedLocator = page.locator(expectedElementXpath);
+        assertThat(expectedLocator).hasText(String.format("Button %s was clicked!", buttonLabel));
     }
 }
