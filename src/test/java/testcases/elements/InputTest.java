@@ -27,4 +27,35 @@ public class InputTest extends MasterTest{
         assertThat(valueLocator).hasText(String.format("Value: %s", inputPlaceholder));
     }
 
+    @Test
+    void verifyUserCanInInputNumber(){
+        page.navigate("https://test-with-me-app.vercel.app/learning/web-elements/elements/input");
+        assertThat(page).hasTitle("Test With Me aka Tho Test");
+        int dataNumber = 10;
+        Locator inputLocator = page.locator("//input[@role='spinbutton']");
+        Locator increaseLocator = page.locator("//span[@role='button' and @aria-label='Increase Value']");
+        Locator decreaseLocator = page.locator("//span[@role='button' and @aria-label='Decrease Value']");
+        Locator valueLocator = page.locator("//input[@role='spinbutton']//following::div[contains(.,'Value:')][1]");
+        inputLocator.fill(Integer.toString(dataNumber));
+        assertThat(valueLocator).hasText(String.format("Value: %s", dataNumber));
+
+        inputLocator.hover();
+        increaseLocator.click();
+        assertThat(valueLocator).hasText(String.format("Value: %s", dataNumber + 5));
+
+        inputLocator.hover();
+        decreaseLocator.click();
+        assertThat(valueLocator).hasText(String.format("Value: %s", dataNumber));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {567876})
+    void verifyUserCanInputOtp(Integer otpNumber){
+        page.navigate("https://test-with-me-app.vercel.app/learning/web-elements/elements/input");
+        assertThat(page).hasTitle("Test With Me aka Tho Test");
+        Locator inputLocator = page.locator("//input[contains(concat(' ',normalize-space(@class),' '),' ant-otp-input ')][1]");
+        Locator valueLocator = page.locator("//div[contains(concat(' ',normalize-space(@class),' '),' ant-otp ')]//following-sibling::div[contains(.,'Value:')][1]");
+        inputLocator.fill(String.valueOf(otpNumber));
+        assertThat(valueLocator).hasText(String.format("Value: %s", otpNumber));
+    }
 }
