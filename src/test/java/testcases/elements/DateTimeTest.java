@@ -3,6 +3,7 @@ package testcases.elements;
 import com.microsoft.playwright.Locator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.LocalDate;
@@ -77,5 +78,41 @@ public class DateTimeTest extends MasterTest{
         String _currentDate = currentDateLocator.textContent().substring(14,24);
         LocalDate currentDate = LocalDate.parse(_currentDate);
         assertTrue(verifyEqualDate(today,currentDate));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "Select year,         2024",
+            "Select year,        2025"
+    })
+    void verifyUserCanSelectYearPicker(String inputPlaceholder, String year) {
+        page.navigate("https://test-with-me-app.vercel.app/learning/web-elements/elements/date-time");
+        assertThat(page).hasTitle("Test With Me aka Tho Test");
+        LocalDate today = LocalDate.now();
+        String selectYearXpath = String.format(inputXpath,inputPlaceholder);
+        Locator selectDateLocator = page.locator(selectYearXpath);
+        String currentDateXpath = String.format(currentDateTimeXpath, inputPlaceholder);
+        Locator currentDateLocator = page.locator(currentDateXpath);
+        String yearInCalendarXpath = String.format("//div[text()[normalize-space()='%s']]", year);
+        Locator yearInCalendarLocator = page.locator(yearInCalendarXpath);
+        selectDateLocator.click();
+        yearInCalendarLocator.click();
+        assertThat(currentDateLocator).hasText(String.format("Current date: %s", year));
+    }
+
+    @Test
+    void luantest(){
+        page.navigate("https://test-with-me-app.vercel.app/learning/web-elements/elements/date-time");
+        assertThat(page).hasTitle("Test With Me aka Tho Test");
+        Locator selectMonthLocator = page.locator("//input[@placeholder='Select month']");
+        Locator selectMonthInCalendarLocartor = page.locator("//div[text()[normalize-space()='May']]");
+        Locator getMonthLocator = page.locator("//div[text()[normalize-space()='May']]//parent::td");
+        Locator resultLocator = page.locator("//input[@placeholder='Select month']//following::div[contains(., 'Current')][1]");
+        selectMonthLocator.click();
+        selectMonthInCalendarLocartor.click();
+        String result = resultLocator.textContent();
+        String titleValue = getMonthLocator.getAttribute("title");
+        String _result = "Current date: " + titleValue;
+        System.out.println(_result);
     }
 }
