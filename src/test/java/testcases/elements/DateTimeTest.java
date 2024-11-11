@@ -18,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class DateTimeTest extends MasterTest{
     String inputXpath = "//input[@placeholder='%s']";
     String currentDateTimeXpath = "//input[@placeholder='%s']//following::div[contains(., 'Current')][1]";
+    String _startValueXpath = "//td[contains(@title, '%s')]//div[text()[normalize-space()='%s']]";
+    String _endValueXpath = "//td[contains(@title, '%s')]//div[text()[normalize-space()='%s']]";
     String _itemInCalendarXpath = "//div[text()[normalize-space()='%s']]";
     String _valueFromTitleXpath = "//div[text()[normalize-space()='%s']]//parent::td";
     boolean verifyNowTimeIsBetweenBeforeAndAfter(LocalTime before, LocalTime after, LocalTime now){
@@ -89,7 +91,7 @@ public class DateTimeTest extends MasterTest{
             "Select quarter,        Q1",
             "Select year,        2020"
     })
-    void verifyUserCanSelectDateAndMonthAndQuarterAndYearAtDatePicker(String inputPlaceholder, String value) {
+    void verifyUserCanSelectDateAtDatePicker(String inputPlaceholder, String value) {
         page.navigate("https://test-with-me-app.vercel.app/learning/web-elements/elements/date-time");
         assertThat(page).hasTitle("Test With Me aka Tho Test");
         String inputDateXpath = String.format(inputXpath,inputPlaceholder);
@@ -103,5 +105,33 @@ public class DateTimeTest extends MasterTest{
         inputDateLocator.click();
         itemInCalendarLocator.click();
         assertThat(currentDateLocator).containsText(valueFromTitleLocator.getAttribute("title"));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "Start month, End month, 2024, Jun, 2025, Jul",
+            "Start quarter, End quarter, 2024, Q1, 2025, Q3",
+            "Start year, End year, 2022, 2022, 2038, 2038"
+    })
+    void verifyUserCanSelectTimeAtDateRangePicker(String inputStartPlaceholer, String inputEndPlaceholer, String startYear, String startValue, String endYear, String endValue) {
+        page.navigate("https://test-with-me-app.vercel.app/learning/web-elements/elements/date-time");
+        assertThat(page).hasTitle("Test With Me aka Tho Test");
+        String startDateXpath = String.format(inputXpath,inputStartPlaceholer);
+        Locator startDateLocator = page.locator(startDateXpath);
+        String endDateXpath = String.format(inputXpath,inputEndPlaceholer);
+        Locator endDateLocator = page.locator(endDateXpath);
+        String startValueXpath = String.format(_startValueXpath, startYear, startValue);
+        Locator startValueLocator = page.locator(startValueXpath);
+        String endValueXpath = String.format(_endValueXpath, endYear, endValue);
+        Locator endValueLocator = page.locator(endValueXpath);
+        String currentDateXpath = String.format(currentDateTimeXpath, inputStartPlaceholer);
+        Locator currentDateLocator = page.locator(currentDateXpath);
+        startDateLocator.click();
+        startValueLocator.click();
+        endValueLocator.click();
+        startDateLocator.getAttribute("value");
+        endDateLocator.getAttribute("value");
+        String result = startDateLocator.getAttribute("value") + " - " + endDateLocator.getAttribute("value");
+        assertThat(currentDateLocator).containsText(result);
     }
 }
