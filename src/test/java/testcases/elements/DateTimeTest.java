@@ -21,15 +21,6 @@ public class DateTimeTest extends MasterTest{
     String _startValueXpath = "//td[contains(@title, '%s')]//div[text()[normalize-space()='%s']]";
     String _endValueXpath = "//td[contains(@title, '%s')]//div[text()[normalize-space()='%s']]";
     String _itemInCalendarXpath = "//div[text()[normalize-space()='%s']]";
-    String _valueFromTitleXpath = "//div[text()[normalize-space()='%s']]//parent::td";
-    boolean verifyNowTimeIsBetweenBeforeAndAfter(LocalTime before, LocalTime after, LocalTime now){
-        if(now.isAfter(before) && now.isBefore(after)){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
 
     @ParameterizedTest
     @ValueSource(strings = { "Select time" })
@@ -39,7 +30,7 @@ public class DateTimeTest extends MasterTest{
         LocalTime beforeObj = LocalTime.now();
         /*DateTimeFormatter beforeFormatObj = DateTimeFormatter.ofPattern("HH:mm:ss");
         System.out.println("before: " + beforeObj.format(beforeFormatObj));*/
-        Thread.sleep(5000);
+        Thread.sleep(1000);
         String inputTimeXpath = String.format(inputXpath, inputPlaceholder);
         Locator inputTimeLocator = page.locator(inputTimeXpath);
         Locator nowLocator = page.locator("//a[text()[normalize-space()='Now']]");
@@ -51,21 +42,13 @@ public class DateTimeTest extends MasterTest{
         LocalTime nowTime = LocalTime.parse(_nowTime);
         /*DateTimeFormatter nowFormatObj = DateTimeFormatter.ofPattern("HH:mm:ss");
         System.out.println("Now time: " + nowTime.format(nowFormatObj));*/
-        Thread.sleep(5000);
+        Thread.sleep(1000);
         LocalTime afterObj = LocalTime.now();
         /*DateTimeFormatter afterFormatObj = DateTimeFormatter.ofPattern("HH:mm:ss");
         System.out.println("after: " + afterObj.format(afterFormatObj));*/
-        assertTrue(verifyNowTimeIsBetweenBeforeAndAfter(beforeObj,afterObj,nowTime));
+        assertTrue(nowTime.isAfter(beforeObj) && nowTime.isBefore(afterObj));
     }
 
-    boolean verifyEqualDate(LocalDate _current, LocalDate current){
-        if(_current.isEqual(current)){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
     @ParameterizedTest
     @ValueSource(strings = { "Select date" })
     void verifyUserCanSelectTodayAtDatePicker(String inputPlaceholder){
@@ -81,12 +64,13 @@ public class DateTimeTest extends MasterTest{
         todayLocator.click();
         String _currentDate = currentDateLocator.textContent().substring(14,24);
         LocalDate currentDate = LocalDate.parse(_currentDate);
-        assertTrue(verifyEqualDate(today,currentDate));
+        assertTrue(today.isEqual(currentDate));
     }
 
     @ParameterizedTest
     @CsvSource({
             "Select date,         14",
+            "Select week,         10",
             "Select month,         May",
             "Select quarter,        Q1",
             "Select year,        2020"
@@ -98,13 +82,13 @@ public class DateTimeTest extends MasterTest{
         Locator inputDateLocator = page.locator(inputDateXpath);
         String itemInCalendarXpath = String.format(_itemInCalendarXpath, value);
         Locator itemInCalendarLocator = page.locator(itemInCalendarXpath);
-        String valueFromTitleXpath = String.format(_valueFromTitleXpath, value);
-        Locator valueFromTitleLocator = page.locator(valueFromTitleXpath);
+        String valueFromValueXpath = String.format(inputXpath, inputPlaceholder);
+        Locator valueFromValueLocator = page.locator(valueFromValueXpath);
         String currentDateXpath = String.format(currentDateTimeXpath, inputPlaceholder);
         Locator currentDateLocator = page.locator(currentDateXpath);
         inputDateLocator.click();
         itemInCalendarLocator.click();
-        assertThat(currentDateLocator).containsText(valueFromTitleLocator.getAttribute("title"));
+        assertThat(currentDateLocator).containsText(valueFromValueLocator.getAttribute("value"));
     }
 
     @ParameterizedTest
