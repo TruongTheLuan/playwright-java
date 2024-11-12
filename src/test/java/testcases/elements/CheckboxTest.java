@@ -2,10 +2,11 @@ package testcases.elements;
 
 import com.microsoft.playwright.*;
 import org.junit.jupiter.api.*;
+import testcases.MasterTest;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-public class CheckboxTest extends MasterTest{
+public class CheckboxTest extends MasterTest {
     void selectCheckboxByLabel(String checkboxLabel, boolean checked){
         String checkboxGeneric = "//label[.//text()[normalize-space()='%s']]";
         String checkboxXpath = String.format(checkboxGeneric, checkboxLabel);

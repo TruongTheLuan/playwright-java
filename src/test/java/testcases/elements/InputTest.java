@@ -4,10 +4,11 @@ import com.microsoft.playwright.Locator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import testcases.MasterTest;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-public class InputTest extends MasterTest{
+public class InputTest extends MasterTest {
     @ParameterizedTest
     @ValueSource(strings = { "Hello!", "Test with me!" , "Input password"})
     void verifyUserCanInputDataInNormalInputAndTextArea(String inputPlaceholder){

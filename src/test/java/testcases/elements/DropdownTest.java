@@ -1,13 +1,13 @@
 package testcases.elements;
 
 import com.microsoft.playwright.Locator;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import testcases.MasterTest;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-public class DropdownTest extends MasterTest{
+public class DropdownTest extends MasterTest {
     void selectOptionInDropdown(String dropdownItem){
         Locator dropdownLocator = page.locator("//button[contains(concat(' ',normalize-space(@class),' '),' ant-dropdown-trigger ')]");
         String dropdownItemXpath = String.format("//ul[@role='menu']/li[contains(concat(' ',normalize-space(@class),' '),' ant-dropdown-menu-item ')]/span[normalize-space(.//text())='%s']", dropdownItem);

@@ -1,13 +1,13 @@
 package testcases.elements;
 
 import com.microsoft.playwright.*;
-import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import testcases.MasterTest;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 
-public class ButtonTest extends MasterTest{
+public class ButtonTest extends MasterTest {
     void clickButton(String buttonLabel){
         String normalButtonXpath = String.format("//button[normalize-space(.//text())='%s']", buttonLabel);
         String tagButtonXpath = String.format("//*[@role='button' and normalize-space(.//text())='%s']", buttonLabel);
