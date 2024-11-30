@@ -14,10 +14,10 @@ public class PopConfirmTest extends MasterTest {
     void verifyPopConfirm(String option) throws InterruptedException {
         page.navigate("https://test-with-me-app.vercel.app/learning/web-elements/components/pop-confirm");
         assertThat(page).hasTitle("Test With Me aka Tho Test");
-        String deleteButtonXpath = "//button[.//text()[normalize-space()='Delete']]";
+        String deleteButtonXpath = "(//div[normalize-space()='Pop confirm']//following::button[.//text()[normalize-space()='Delete']])[1]";
         Locator deleteButtonLocator = page.locator(deleteButtonXpath);
         deleteButtonLocator.click();
-        String optionButtonXpath = String.format("//div[contains(concat(' ',normalize-space(@class),' '),' ant-popconfirm-buttons ')]//button[.//text()[normalize-space()='%s']]", option);
+        String optionButtonXpath = String.format("//div[@role='tooltip' and .//div[normalize-space(text())='Delete the task']]//button[.//text()[normalize-space()='%s']]", option);
         Locator optionButtonLocator = page.locator(optionButtonXpath);
         optionButtonLocator.click();
         String expectedElementXpath = String.format("//div[contains(concat(' ',normalize-space(@class),' '),' ant-message-notice-content ') and .//text()[normalize-space()='Click on %s']]", option);
