@@ -71,4 +71,17 @@ public class FormTestData {
                              }
                            ]
      """;
+    public static String formValidData = """
+     [
+        {
+            "Full Name": "test",
+            "Email": "test@gmail.com",
+            "Phone Number": "0987675271",
+            "Date of Birth": "1999-01-01",
+            "Address": "HCM",
+            "Occupation": "ADB",
+            "Company": "ABC"
+        }
+     ]
+     """;
 }

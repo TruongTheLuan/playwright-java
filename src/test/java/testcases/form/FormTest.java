@@ -24,6 +24,12 @@ public class FormTest extends MasterTest {
         return dataList.stream();
     }
 
+    static Stream<?> formValidData() throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Map<String,String>> dataList = mapper.readValue(FormTestData.formValidData, new TypeReference<List<Map<String, String>>>(){});
+        return dataList.stream();
+    }
+
     @ParameterizedTest
     @MethodSource("formValidationData")
     void verifyFormValidation(Map<String, Map<String, String>> data){
@@ -47,5 +53,22 @@ public class FormTest extends MasterTest {
             actualError.put(fieldData.getKey(),page.locator(expectedXpath).textContent());
         }
         assertEquals(expectedError,actualError);
+    }
+
+    @ParameterizedTest
+    @MethodSource("formValidData")
+    void verifyFormValidData(Map<String, String> data){
+        page.navigate("https://test-with-me-app.vercel.app/learning/web-elements/form");
+        assertThat(page).hasTitle("Test With Me aka Tho Test");
+        for(Map.Entry<String, String> fieldData : data.entrySet()){
+            String inputXpath = String.format("(//div[normalize-space() = '%s']//following-sibling::div//input)[1]", fieldData.getKey());
+            page.locator(inputXpath).fill(fieldData.getValue());
+        }
+        String submitButtonXpath = "//button[.//text()[normalize-space()='Submit']]";
+        Locator submitButtonLocator = page.locator(submitButtonXpath);
+        submitButtonLocator.click();
+
+        String notificationXpath = "//div[contains(concat(' ',normalize-space(@class),' '),' ant-notification-notice-description ') and .//text()[normalize-space()='Your application has been submitted successfully.']]";
+        assertThat(page.locator(notificationXpath)).hasText("Your application has been submitted successfully.");
     }
 }
