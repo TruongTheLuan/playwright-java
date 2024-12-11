@@ -19,7 +19,7 @@ public class UploadTest extends MasterTest {
         assertThat(page).hasTitle("Test With Me aka Tho Test");
         ClassLoader classLoader = getClass().getClassLoader();
         URL inputStream = classLoader.getResource("upload/my-upload-file.txt");
-        String buttonUploadXpath = "//span[contains(concat(' ',normalize-space(@class),' '),' ant-upload ')]//button[normalize-space(.//text())='Click to Upload']";
+        String buttonUploadXpath = "(//button[span[normalize-space(text())='Click to Upload']]//preceding-sibling::input[@type='file'])[1]";
         Locator buttonUploadLocator = page.locator(buttonUploadXpath);
         buttonUploadLocator.setInputFiles(Path.of(inputStream.getPath()));
         String expectedElementXpath = "//span[normalize-space(.//text())='my-upload-file.txt']";
