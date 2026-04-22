@@ -12,7 +12,9 @@ repositories {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
-    testImplementation 'com.microsoft.playwright:playwright:1.48.0'
+    testImplementation 'com.microsoft.playwright:playwright:1.58.0'
+    testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.18.1'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 task playwright(type: JavaExec) {

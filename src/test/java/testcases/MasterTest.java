@@ -1,41 +1,38 @@
-package testcases.elements;
+package testcases;
 
-import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.BrowserContext;
-import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Playwright;
+import com.microsoft.playwright.*;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 public class MasterTest {
-    static Playwright playwright;
-    static Browser browser;
+    public static Playwright playwright;
+    public static Browser browser;
 
     // New instance for each test method.
-    BrowserContext context;
-    Page page;
+    public static BrowserContext context;
+    public static Page page;
 
     @BeforeAll
-    static void launchBrowser() {
+    public static void launchBrowser() {
         playwright = Playwright.create();
-        browser = playwright.chromium().launch();
+        browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
     }
 
     @AfterAll
-    static void closeBrowser() {
+    public static void closeBrowser() {
         playwright.close();
     }
 
     @BeforeEach
-    void createContextAndPage() {
+    public void createContextAndPage() {
         context = browser.newContext();
         page = context.newPage();
     }
 
     @AfterEach
-    void closeContext() {
+    public void closeContext() {
         context.close();
     }
 }
