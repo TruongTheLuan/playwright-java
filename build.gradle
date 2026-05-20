@@ -10,11 +10,14 @@ repositories {
 }
 
 dependencies {
+    testImplementation("io.cucumber:cucumber-java:7.34.3")
+    testImplementation("io.cucumber:cucumber-junit:7.34.3")
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'com.microsoft.playwright:playwright:1.58.0'
     testImplementation 'com.fasterxml.jackson.core:jackson-databind:2.18.1'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.junit.platform:junit-platform-suite:1.10.0'
 }
 
 task playwright(type: JavaExec) {
