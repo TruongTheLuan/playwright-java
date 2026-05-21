@@ -1,7 +1,7 @@
-# Playwright Java Project Documentation
+# Cucumber Playwright Java Project Documentation
 
 ## Project Overview
-This project leverages Playwright for automated testing in Java. It aims to provide a robust framework for testing web applications with various testing methodologies including UI component tests, form validation tests, and data model validations.
+This project is a comprehensive **Behavior-Driven Development (BDD)** testing framework that combines **Cucumber** with **Playwright** for automated testing in Java. It provides a robust framework for testing web applications using Gherkin syntax and Playwright's powerful browser automation capabilities.
 
 ## Project Structure
 ```
@@ -14,52 +14,88 @@ This project leverages Playwright for automated testing in Java. It aims to prov
 │       ├── java
 │       │   └── com
 │       │       └── example
+│       │           ├── steps          # Cucumber step definitions
+│       │           └── hooks          # Cucumber hooks (setup/teardown)
 │       └── resources
-├── pom.xml
+│           └── features               # Gherkin feature files
+├── build.gradle
+├── settings.gradle
+├── gradlew
+├── gradlew.bat
 └── README.md
 ```
 
 ## Features
-- **Playwright Automation Tests**: Comprehensive testing framework for web applications.
-- **Form Validation Tests**: Ensures that forms behave as expected under various scenarios.
-- **UI Components Testing**: Tests for individual UI components to ensure they render and function correctly.
-- **Data Models for Customer Information**: Validates the structure and data integrity of customer information models.
+- **Cucumber BDD Framework**: Write tests in Gherkin syntax for better readability and collaboration
+- **Playwright Automation**: Leverage Playwright for reliable cross-browser testing (Chromium, Firefox, WebKit)
+- **JUnit 5 Integration**: Native support for JUnit 5 (Jupiter) assertions and lifecycle management
+- **JSON Data Handling**: Jackson integration for handling JSON test data and API responses
+- **Parallel Test Execution**: Run tests in parallel using Gradle and JUnit Platform
 
 ## Setup Instructions
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/TruongTheLuan/playwright-java.git
-   cd playwright-java
-   ```
-2. **Install Dependencies**:
-   Ensure you have Maven installed. Run:
-   ```bash
-   mvn install
-   ```
-3. **Run Tests**:
-   To execute the tests, use:
-   ```bash
-   mvn test
-   ```
+
+### Prerequisites
+- Java Development Kit (JDK) 11 or higher
+- Gradle 7.0+ (or use the included `gradlew` wrapper)
+- Git
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/TruongTheLuan/cucumber-playwright-java.git
+cd cucumber-playwright-java
+```
+
+### 2. Install Dependencies
+The project uses Gradle as the build tool. Dependencies are defined in `build.gradle`:
+
+```bash
+./gradlew clean build
+```
+
+Or on Windows:
+```bash
+gradlew.bat clean build
+```
+
+### 3. Install Playwright Browsers
+```bash
+./gradlew playwright --args="install"
+```
+
+### 4. Run Tests
+To execute all tests:
+```bash
+./gradlew test
+```
 
 ## Usage Examples
-### Running UI Tests
-To run the UI component tests, execute:
+
+### Running All Cucumber Tests
+Execute all feature files:
 ```bash
-mvn -Dtest=UIComponentTest test
+./gradlew test
 ```
 
-### Running Form Validation Tests
-To run the form validation tests, execute:
+### Running Specific Feature Files
+Run tests for a particular feature:
 ```bash
-mvn -Dtest=FormValidationTest test
+./gradlew test --args="--features=src/test/resources/features/login.feature"
 ```
 
-### Validating Customer Data Models
-To validate customer data models, execute:
+### Running Tests by Tags
+Execute tests with specific tags:
 ```bash
-mvn -Dtest=CustomerDataModelTest test
+./gradlew test --args="--tags=@smoke"
 ```
 
-### Conclusion
-This README provides a comprehensive guide to the Playwright Java project, detailing its structure, features, setup instructions, and usage examples. For further information, check out the project documentation or contact the maintainer.
+### Running Tests in Headless Mode
+By default, Playwright runs in headless mode. To run with browser UI visible:
+```bash
+./gradlew test -Dheaded=true
+```
+
+### Generating Test Reports
+Cucumber generates reports automatically. View them after test execution:
+```
+build/reports/
+```
