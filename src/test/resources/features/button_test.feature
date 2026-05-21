@@ -2,7 +2,7 @@ Feature: Elements - Button
   Background:
     Given User open button page
 
-  Scenario Outline: User can click all buttons
+  Scenario Outline: Verify that user can click all buttons
     When User click on "<label>" button
     Then User should see an expected message contains "<label>"
     Examples:

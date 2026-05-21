@@ -24,7 +24,7 @@ public class ButtonSteps {
     }
 
     @Then("User should see an expected message contains {string}")
-    public void userShouldSeeAMessageIs(String buttonLabel) {
+    public void userShouldSeeAMessageContainsLabel(String buttonLabel) {
         buttonPage.verifyExpectedMessageAppears(buttonLabel);
     }
 }
