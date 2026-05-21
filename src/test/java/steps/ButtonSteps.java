@@ -1,14 +1,10 @@
 package steps;
 
 import com.microsoft.playwright.*;
-import io.cucumber.java.PendingException;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pages.ButtonPage;
-
-import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
-import static steps.Hooks.page;
 
 public class ButtonSteps {
     ButtonPage buttonPage = new ButtonPage();

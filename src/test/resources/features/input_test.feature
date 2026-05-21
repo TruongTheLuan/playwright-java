@@ -6,10 +6,10 @@ Feature: Elements - Input
     When User input data in "<inputField>"
     Then User should see an expected value contains "<inputField>"
     Examples:
-      | inputField |
-      | Hello! |
-      | Test with me! |
-      | Input password |
+      | inputField      |
+      | Hello!          |
+      | Test with me!   |
+      | Input password  |
 
   Scenario: Verify that user can input data in Input Number field
     When User input data in Input Number field

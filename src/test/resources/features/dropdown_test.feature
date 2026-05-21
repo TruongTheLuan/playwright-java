@@ -6,7 +6,7 @@ Feature: Elements - Dropdown
     When User select "<item>" in dropdown
     Then User should see an value of dropdown contains "<item>"
     Examples:
-      | item |
+      | item          |
       | 1st menu item |
       | 2nd menu item |
       | 3rd menu item |

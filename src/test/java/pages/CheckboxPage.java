@@ -1,8 +1,6 @@
 package pages;
 
 import com.microsoft.playwright.Locator;
-import io.cucumber.java.en.Given;
-import org.junit.jupiter.api.Test;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static steps.Hooks.page;

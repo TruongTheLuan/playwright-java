@@ -6,7 +6,7 @@ Feature: Elements - Radio
     When User click on "<label>" radio
     Then User should see an value of radio contains "<label>"
     Examples:
-      | label |
-      | Apple |
-      | Pear |
-      | Orange |
+      | label   |
+      | Apple   |
+      | Pear    |
+      | Orange  |

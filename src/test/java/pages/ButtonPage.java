@@ -2,7 +2,6 @@ package pages;
 
 
 import com.microsoft.playwright.Locator;
-import com.microsoft.playwright.Page;
 
 import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertThat;
 import static steps.Hooks.page;
