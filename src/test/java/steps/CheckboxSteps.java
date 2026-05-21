@@ -10,7 +10,7 @@ import static steps.Hooks.page;
 public class CheckboxSteps {
     CheckboxPage checkboxPage = new CheckboxPage();
     @Given("User open checkbox page")
-    public void userNavigateToButtonPage() {
+    public void userNavigateToCheckboxPage() {
         checkboxPage.openCheckboxPage();
     }
 
