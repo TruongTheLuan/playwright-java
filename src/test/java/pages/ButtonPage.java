@@ -8,6 +8,10 @@ import static com.microsoft.playwright.assertions.PlaywrightAssertions.assertTha
 import static steps.Hooks.page;
 
 public class ButtonPage {
+    public void openButtonPage(){
+        page.navigate("https://test-with-me-app.vercel.app/learning/web-elements/elements/button");
+    }
+
     public void clickOnButtonByLabel(String buttonLabel) {
         String normalButtonXpath = String.format("//button[normalize-space(.//text())='%s']", buttonLabel);
         String tagButtonXpath = String.format("//*[@role='button' and normalize-space(.//text())='%s']", buttonLabel);

@@ -14,7 +14,7 @@ public class ButtonSteps {
     ButtonPage buttonPage = new ButtonPage();
     @Given("User open button page")
     public void userNavigateToButtonPage() {
-        page.navigate("https://test-with-me-app.vercel.app/learning/web-elements/elements/button");
+        buttonPage.openButtonPage();
     }
 
 
