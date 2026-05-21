@@ -8,7 +8,7 @@ import pages.RadioPage;
 public class RadioSteps {
     RadioPage radioPage = new RadioPage();
     @Given("User open radio page")
-    public void userNavigateToRadioePage(){
+    public void userNavigateToRadioPage(){
         radioPage.openRadioPage();
     }
 
